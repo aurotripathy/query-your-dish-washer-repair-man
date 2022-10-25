@@ -8,7 +8,6 @@ from nltk.tokenize import RegexpTokenizer
 
 def gen_text_for_embeddings(url, f, writer, total):
     """total is the sentence count up to this point"""
-    # writer = csv.writer(f)
     
     html_text = requests.get(url).text
     
