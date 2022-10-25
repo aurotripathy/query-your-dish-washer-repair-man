@@ -6,9 +6,9 @@ import csv
 import re
 from nltk.tokenize import RegexpTokenizer
 
-def gen_text_for_embeddings(url, f, total):
+def gen_text_for_embeddings(url, f, writer, total):
     """total is the sentence count up to this point"""
-    writer = csv.writer(f)
+    # writer = csv.writer(f)
     
     html_text = requests.get(url).text
     soup = BeautifulSoup(html_text, 'html.parser')
@@ -55,10 +55,11 @@ def gen_text_for_embeddings(url, f, total):
     return total + len(soup.find_all('p')) 
 
 # main
-out_file = 'out-file.csv'   
+out_file = 'dish-washer-data.csv'   
 f_handle = open(out_file, 'w')
+writer = csv.writer(f_handle)
 total_sentences = 0
 for i in range(1, 7):
     url = f'https://www.appliancerepair.net/dishwasher-repair-{i}.html'
-    total_sentences = gen_text_for_embeddings(url, f_handle, total_sentences)   
+    total_sentences = gen_text_for_embeddings(url, f_handle, writer, total_sentences)   
 f_handle.close()
