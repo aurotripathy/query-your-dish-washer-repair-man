@@ -1,4 +1,4 @@
-# Query your dish-washer repair Manual
+# Query your Dish-washer Repair Manual
 
 Data is gathered from:
 
