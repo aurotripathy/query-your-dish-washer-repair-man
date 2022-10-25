@@ -11,21 +11,7 @@ def gen_text_for_embeddings(url, f, writer, total):
     # writer = csv.writer(f)
     
     html_text = requests.get(url).text
-    soup = BeautifulSoup(html_text, 'html.parser')
-
-    #remove any 'funny' characters
-    #import re module
     
-    #re.sub() method
-    # soup = re.sub(r"(\200|\232)", "", soup)
-
-
-    # allowlist = ['p',]
-
-    # f.write(f'*************Table-of-Contents*************\n')
-    # for div in soup.findAll('div', {'class': 'toc-category'}):
-    #     f.write(f'{str(div.find_all(text=True))}\n')
-
     soup = BeautifulSoup(html_text, 'html.parser')
     merge_text = None
     for i, para in enumerate(soup.findAll('p')):
