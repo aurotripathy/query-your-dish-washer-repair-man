@@ -5,8 +5,9 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 import csv
 import re
 from nltk.tokenize import RegexpTokenizer
+from nltk.tokenize.treebank import TreebankWordDetokenizer
 
-def gen_text_for_embeddings(url, f, writer, total):
+def gen_text_for_embeddings(url, f, writer, total, title):
     """total is the sentence count up to this point"""
     
     html_text = requests.get(url).text
@@ -36,15 +37,18 @@ def gen_text_for_embeddings(url, f, writer, total):
         
         tokenizer = RegexpTokenizer(r'\w+')
         tokens = tokenizer.tokenize(text)
-        writer.writerow([total + i, text, len(tokens)])
+        heading = TreebankWordDetokenizer().detokenize(tokens[:5])
+        writer.writerow([title, heading, text, len(tokens)])
     return total + len(soup.find_all('p')) 
 
 # main
 out_file = 'dish-washer-data.csv'   
 f_handle = open(out_file, 'w')
 writer = csv.writer(f_handle)
+writer.writerow(["title", "heading", "contents", "tokens"])
 total_sentences = 0
 for i in range(1, 7):
+    title = f'Chapter_{i}'
     url = f'https://www.appliancerepair.net/dishwasher-repair-{i}.html'
-    total_sentences = gen_text_for_embeddings(url, f_handle, writer, total_sentences)   
+    total_sentences = gen_text_for_embeddings(url, f_handle, writer, total_sentences, title)   
 f_handle.close()
