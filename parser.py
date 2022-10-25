@@ -27,10 +27,19 @@ def gen_text_for_embeddings(url, f, total):
     #     f.write(f'{str(div.find_all(text=True))}\n')
 
     soup = BeautifulSoup(html_text, 'html.parser')
+    merge_text = None
     for i, para in enumerate(soup.findAll('p')):
         # writer.writerow([f'***{i}***'])
         text = ''
+        if para.find_all('strong'):
+            merge_text = para.text
+            continue
+        if merge_text is not None:
+            text = '' + merge_text + ' '
+            merge_text = None
+    
         for child in para:
+            
             if isinstance(child, NavigableString):
                 text += str(child).strip()
                 text = re.sub(r"(\231|\200|\204)", "", text)  # cleanup
@@ -49,7 +58,7 @@ def gen_text_for_embeddings(url, f, total):
 out_file = 'out-file.csv'   
 f_handle = open(out_file, 'w')
 total_sentences = 0
-for i in range(1, 6):
+for i in range(1, 7):
     url = f'https://www.appliancerepair.net/dishwasher-repair-{i}.html'
     total_sentences = gen_text_for_embeddings(url, f_handle, total_sentences)   
 f_handle.close()
