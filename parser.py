@@ -3,6 +3,7 @@
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
 import csv
+import re
 
 
 def gen_text_for_embeddings(url, f, total):
@@ -12,6 +13,13 @@ def gen_text_for_embeddings(url, f, total):
     html_text = requests.get(url).text
     soup = BeautifulSoup(html_text, 'html.parser')
 
+    #remove any 'funny' characters
+    #import re module
+    
+    #re.sub() method
+    # soup = re.sub(r"(\200|\232)", "", soup)
+
+
     # allowlist = ['p',]
 
     # f.write(f'*************Table-of-Contents*************\n')
@@ -20,17 +28,18 @@ def gen_text_for_embeddings(url, f, total):
 
     soup = BeautifulSoup(html_text, 'html.parser')
     for i, para in enumerate(soup.findAll('p')):
-        # print(f'***{i}***')
+        # writer.writerow([f'***{i}***'])
         text = ' '
         for child in para:
             if isinstance(child, NavigableString):
                 text += str(child).strip()
+                # text = re.sub(r"(\200|\232)", "", text)
             elif isinstance(child, Tag):
                 if child.name != 'br' or child.name != 'em':
                     text = text + ' ' + child.text + ' '
                 else:
                     text += '\n'
-                writer.writerow([total + i, text])
+        writer.writerow([total + i, text])
     return total + len(soup.find_all('p')) 
 
 # main
