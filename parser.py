@@ -4,10 +4,10 @@ import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
 import csv
 import re
-
+from nltk.tokenize import RegexpTokenizer
 
 def gen_text_for_embeddings(url, f, total):
-    
+    """total is the sentence count up to this point"""
     writer = csv.writer(f)
     
     html_text = requests.get(url).text
@@ -29,17 +29,20 @@ def gen_text_for_embeddings(url, f, total):
     soup = BeautifulSoup(html_text, 'html.parser')
     for i, para in enumerate(soup.findAll('p')):
         # writer.writerow([f'***{i}***'])
-        text = ' '
+        text = ''
         for child in para:
             if isinstance(child, NavigableString):
                 text += str(child).strip()
-                # text = re.sub(r"(\200|\232)", "", text)
+                text = re.sub(r"(\231|\200|\204)", "", text)  # cleanup
             elif isinstance(child, Tag):
                 if child.name != 'br' or child.name != 'em':
                     text = text + ' ' + child.text + ' '
                 else:
                     text += '\n'
-        writer.writerow([total + i, text])
+        
+        tokenizer = RegexpTokenizer(r'\w+')
+        tokens = tokenizer.tokenize(text)
+        writer.writerow([total + i, text, len(tokens)])
     return total + len(soup.find_all('p')) 
 
 # main
