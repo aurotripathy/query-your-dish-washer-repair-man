@@ -29,8 +29,6 @@ def gen_text_for_embeddings(url, out_file):
     p = soup.find('p').find_all(text=True, recursive=True)
     print(p)
 
-    html = "<p><strong>Pancakes</strong><br/> A <strong>delicious</strong> type of food<br/></p>"
-
     soup = BeautifulSoup(html, 'html.parser')
     text = ''
     for child in soup.find_all('p')[0]:
@@ -46,8 +44,6 @@ def gen_text_for_embeddings(url, out_file):
     print(result)
 
     
-    html = "<p><strong>Pancakes</strong><br/> A <strong><em> delicious</em> </strong> type of food<br/></p>"
-
     soup = BeautifulSoup(html, 'html.parser')
     text = ''
     for child in soup.find_all('p')[0]:
