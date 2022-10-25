@@ -11,68 +11,28 @@ def gen_text_for_embeddings(url, out_file):
 
     allowlist = ['p',]
 
-
-    with open(out_file, 'w') as f:
-        text_elements = [t for t in soup.find_all(text=True, recursive=True) if t.parent.name in allowlist]
-
-        for text_element in text_elements:
-            f.write(f"{text_element}'\n'")
-
-        print(f'table-of-contents')
-        for div in soup.findAll('div', {'class': 'toc-category'}):
-            f.write(str(div.find_all(text=True)))
-
-
-    html = "<p><strong>Pancakes</strong><br/> A <strong>delicious <em>xxx</em></strong> type of food<br/></p>"
-
-    soup = BeautifulSoup(html, 'html.parser')
-    p = soup.find('p').find_all(text=True, recursive=True)
-    print(p)
-
-    soup = BeautifulSoup(html, 'html.parser')
-    text = ''
-    for child in soup.find_all('p')[0]:
-        if isinstance(child, NavigableString):
-            text += str(child).strip()
-        elif isinstance(child, Tag):
-            if child.name != 'br':
-                text = text + ' ' + child.text + ' '
-            else:
-                text += '\n'
-
-    result = text.strip().split('\n')
-    print(result)
-
     
-    soup = BeautifulSoup(html, 'html.parser')
-    text = ''
-    for child in soup.find_all('p')[0]:
-        if isinstance(child, NavigableString):
-            text += str(child).strip()
-        elif isinstance(child, Tag):
-            if child.name != 'br' or child.name != 'em':
-                text = text + ' ' + child.text + ' '
-            else:
-                text += '\n'
+    with open(out_file, 'w') as f:
 
-    result = text.strip().split('\n')
-    print(result)
+        f.write(f'*************Table-of-Contents*************\n')
+        for div in soup.findAll('div', {'class': 'toc-category'}):
+            f.write(f'{str(div.find_all(text=True))}\n')
 
-    soup = BeautifulSoup(html_text, 'html.parser')
-    for i, para in enumerate(soup.findAll('p')):
-        print(f'***{i}***')
-        text = ' '
-        for child in para:
-            if isinstance(child, NavigableString):
-                text += str(child).strip()
-            elif isinstance(child, Tag):
-                if child.name != 'br' or child.name != 'em':
-                    text = text + ' ' + child.text + ' '
-                else:
-                    text += '\n'
-        result = text.strip().split('\n')
-        print(result)
-
+        soup = BeautifulSoup(html_text, 'html.parser')
+        for i, para in enumerate(soup.findAll('p')):
+            # print(f'***{i}***')
+            text = ' '
+            for child in para:
+                if isinstance(child, NavigableString):
+                    text += str(child).strip()
+                elif isinstance(child, Tag):
+                    if child.name != 'br' or child.name != 'em':
+                        text = text + ' ' + child.text + ' '
+                    else:
+                        text += '\n'
+            # result = text.strip().split('\n')
+            # print(text)
+            f.write(f'{text}\n')
 
 # main
 out_file = 'out-file.txt'   
