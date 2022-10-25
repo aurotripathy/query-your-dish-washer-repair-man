@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
 
 
-def gen_text(url, out_file):
+def gen_text_for_embeddings(url, out_file):
     
     html_text = requests.get(url).text
     soup = BeautifulSoup(html_text, 'html.parser')
@@ -82,4 +82,4 @@ def gen_text(url, out_file):
 out_file = 'out-file.txt'   
 for i in range(1, 6):
     url = f'https://www.appliancerepair.net/dishwasher-repair-{i}.html'
-    gen_text(url, out_file)   
+    gen_text_for_embeddings(url, out_file)   
