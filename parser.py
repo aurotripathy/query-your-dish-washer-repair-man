@@ -2,18 +2,21 @@
 
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
+import csv
 
 
-def gen_text_for_embeddings(url, f):
+def gen_text_for_embeddings(url, f, total):
+    
+    writer = csv.writer(f)
     
     html_text = requests.get(url).text
     soup = BeautifulSoup(html_text, 'html.parser')
 
-    allowlist = ['p',]
+    # allowlist = ['p',]
 
-    f.write(f'*************Table-of-Contents*************\n')
-    for div in soup.findAll('div', {'class': 'toc-category'}):
-        f.write(f'{str(div.find_all(text=True))}\n')
+    # f.write(f'*************Table-of-Contents*************\n')
+    # for div in soup.findAll('div', {'class': 'toc-category'}):
+    #     f.write(f'{str(div.find_all(text=True))}\n')
 
     soup = BeautifulSoup(html_text, 'html.parser')
     for i, para in enumerate(soup.findAll('p')):
@@ -27,14 +30,14 @@ def gen_text_for_embeddings(url, f):
                     text = text + ' ' + child.text + ' '
                 else:
                     text += '\n'
-        # result = text.strip().split('\n')
-        # print(text)
-        f.write(f'{text}\n')
+                writer.writerow([total + i, text])
+    return total + len(soup.find_all('p')) 
 
 # main
-out_file = 'out-file.txt'   
+out_file = 'out-file.csv'   
 f_handle = open(out_file, 'w')
+total_sentences = 0
 for i in range(1, 6):
     url = f'https://www.appliancerepair.net/dishwasher-repair-{i}.html'
-    gen_text_for_embeddings(url, f_handle)   
+    total_sentences = gen_text_for_embeddings(url, f_handle, total_sentences)   
 f_handle.close()
