@@ -38,14 +38,15 @@ def gen_text_for_embeddings(url, f, writer, total, title):
         tokenizer = RegexpTokenizer(r'\w+')
         tokens = tokenizer.tokenize(text)
         heading = TreebankWordDetokenizer().detokenize(tokens[:5])
-        writer.writerow([title, heading, text, len(tokens)])
+        # writer.writerow([title, heading, text, len(tokens)])
+        writer.writerow([title, f'{str(total + i)}', text, len(tokens)])
     return total + len(soup.find_all('p')) 
 
 # main
 out_file = 'dish-washer-data.csv'   
 f_handle = open(out_file, 'w')
-writer = csv.writer(f_handle)
-writer.writerow(["title", "heading", "contents", "tokens"])
+writer = csv.writer(f_handle, quoting=csv.QUOTE_ALL)
+writer.writerow(["title", "heading", "content", "tokens"])
 total_sentences = 0
 for i in range(1, 7):
     title = f'Chapter_{i}'
