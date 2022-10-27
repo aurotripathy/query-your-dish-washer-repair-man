@@ -21,7 +21,7 @@ def gen_text_for_embeddings(url, f, writer, total, title):
             merge_text = para.text
             continue
         if merge_text is not None:
-            text = '' + merge_text + ' '
+            text = '' + merge_text + ': '
             merge_text = None
     
         for child in para:
