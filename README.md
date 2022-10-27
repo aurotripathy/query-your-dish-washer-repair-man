@@ -1,6 +1,6 @@
 # Query your Dish-washer Repair Manual
 
-Data is gathered from:
+Data is scraped from:
 
 https://www.appliancerepair.net/dishwasher-repair-6.html
 
