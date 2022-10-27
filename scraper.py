@@ -7,9 +7,13 @@ import re
 from nltk.tokenize import RegexpTokenizer
 from nltk.tokenize.treebank import TreebankWordDetokenizer
 
+max_chunk_size = 70  # arbitrary for now
+
 def gen_text_for_embeddings(url, f, writer, total, title):
     """total is the sentence count up to this point"""
     
+    chuck_size = 0
+    chunk = ''
     html_text = requests.get(url).text
     
     soup = BeautifulSoup(html_text, 'html.parser')
@@ -34,12 +38,13 @@ def gen_text_for_embeddings(url, f, writer, total, title):
                     text = text + ' ' + child.text + ' '
                 else:
                     text += '\n'
-        
+        chunk += ' ' + text
         tokenizer = RegexpTokenizer(r'\w+')
-        tokens = tokenizer.tokenize(text)
-        heading = TreebankWordDetokenizer().detokenize(tokens[:5])
-        # writer.writerow([title, heading, text, len(tokens)])
-        writer.writerow([title, f'{str(total + i)}', text, len(tokens)])
+        if len(tokenizer.tokenize(chunk)) > max_chunk_size:
+            tokens = tokenizer.tokenize(chunk)
+            writer.writerow([title, f'{str(total + i)}', chunk, len(tokens)])
+            chunk = ''
+
     return total + len(soup.find_all('p')) 
 
 # main
