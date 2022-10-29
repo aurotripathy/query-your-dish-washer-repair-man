@@ -1,3 +1,8 @@
+"""
+This scrapes the text from several URLs and organizes them 
+for creating embeddings. Its not totally layout agnostic
+but it beats manual scraping
+"""
 # bs4 hacking ideas from https://stackoverflow.com/questions/34589064/beautifulsoup-get-the-class-text
 
 import requests
