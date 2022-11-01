@@ -10,4 +10,4 @@ https://www.appliancerepair.net/dishwasher-repair-1.html and followon pages.
 
 Copyright note for the content: Copyright © 2005 - EB Publishing Inc. All Rights Reserved.
 
-Finally a comparision of naive search vs hnswlib based approximate mearest neightbour search in (in 'log(n)' time) at [ANN-with-hnswlib notebook](./hnswlib-app/ANN-with-hnswlib.ipynb)
+Finally a comparision of naive search vs hnswlib based approximate nearest-neightbour search in (in log(n) time) at [ANN-with-hnswlib notebook](./hnswlib-app/ANN-with-hnswlib.ipynb)
