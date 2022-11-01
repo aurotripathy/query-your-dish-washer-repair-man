@@ -6,8 +6,6 @@ https://medium.com/@auro-227/gpt3-does-dishes-no-use-it-to-query-your-dishwasher
 
 Data is scraped from:
 
-https://www.appliancerepair.net/dishwasher-repair-1.html and followon pages.
-
-Copyright note for the content: Copyright © 2005 - EB Publishing Inc. All Rights Reserved.
+https://www.appliancerepair.net/dishwasher-repair-1.html and followon pages. Copyright note for the content: Copyright © 2005 - EB Publishing Inc. All Rights Reserved.
 
 Finally a comparision of naive search vs hnswlib based approximate nearest-neightbour search in (in log(n) time) at [ANN-with-hnswlib notebook](./hnswlib-app/ANN-with-hnswlib.ipynb)
