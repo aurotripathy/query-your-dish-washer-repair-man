@@ -2,7 +2,7 @@
 
 Writeup on Medium over [here](https://medium.com/@auro-227/gpt3-does-dishes-no-use-it-to-query-your-dishwasher-repair-manual-39af99e017a0).
 
-Data is scraped froma [dish repair mannual found on the web](https://www.appliancerepair.net/dishwasher-repair-1.html).
+Data is scraped from a [dish repair mannual found on the web](https://www.appliancerepair.net/dishwasher-repair-1.html).
 
 Copyright note for the content: Copyright © 2005 - EB Publishing Inc. All Rights Reserved.
 
